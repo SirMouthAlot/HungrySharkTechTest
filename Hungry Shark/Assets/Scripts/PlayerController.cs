@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     //Rigidbody
     Rigidbody2D _rb;
 
+    float _playerHealth = 100.0f;
+
     public AnimationCurve _speedCurve = new AnimationCurve();
     public float _maxDistanceSpeed = 20.0f;
     public float _playerSpeedMod = 5.0f;
@@ -46,6 +48,8 @@ public class PlayerController : MonoBehaviour
         //Move and rotate towards points
         MoveTowardsTargetPoint();
         RotateTowardsMouse();
+
+        CheckIfDead();
     }
 
     void MoveTowardsTargetPoint()
@@ -83,6 +87,9 @@ public class PlayerController : MonoBehaviour
         //Run on consumed
         bool correctTarget = fish.OnConsumed();
 
+        //Update game manager with data
+        GameManager._instance.RemoveFishOfType(fish._name);
+
         //If your chosen target, then we just give points
         if (correctTarget)
         {
@@ -97,11 +104,22 @@ public class PlayerController : MonoBehaviour
 
         //Clean up
         Destroy(other.gameObject);
+
+        GameManager._instance.PopulateSea();
     }
 
     void ReduceFishHealth()
     {
         //Reduce fish health
+        _playerHealth -= 25.0f;
+    }
+
+    void CheckIfDead()
+    {
+        if (_playerHealth <= 0.0f)
+        {
+            GameManager._instance.QuitGame();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
