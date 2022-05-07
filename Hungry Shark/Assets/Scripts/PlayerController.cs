@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     //Rigidbody
     Rigidbody2D _rb;
 
-    float _playerHealth = 100.0f;
+    public float _playerHealth = 100.0f;
 
     public AnimationCurve _speedCurve = new AnimationCurve();
     public float _maxDistanceSpeed = 20.0f;
@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour
         _targetPosition2D = _targetPosition;
 
         _movementVector2D = _targetPosition2D - _currentPosition2D;
+
+        GameManager._instance._player = this;
     }
 
     private void LateUpdate()

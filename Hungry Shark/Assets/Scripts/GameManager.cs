@@ -10,7 +10,9 @@ public class GameManager : MonoBehaviour
     public GameObject _fishSpawner = null;
     public Text _scoreValue = null;
     public Image _targetFishImage = null;
+    public Text _healthValue = null;
 
+    public PlayerController _player = null;
     public float _spawnRadiusPlayer = 10.0f;
 
     public int _maxNumSpawnedFish = 20;
@@ -98,12 +100,24 @@ public class GameManager : MonoBehaviour
     {
         _targetFish = UnityEngine.Random.Range(0, _fishNames.Count);
 
+        //Check if the chosen fish type has any spawned
+        if (_numEachFishType[_targetFish] <= 0)
+        {
+            //If not we just choose a new target
+            ChooseNewTarget();
+        }
+
         _targetFishImage.sprite = _fishSprites[_targetFish];
     }
 
     private void LateUpdate()
     {
         _scoreValue.text = ScoreManager.GetCurrentScore().ToString();
+
+        if (_player)
+        {
+            _healthValue.text = _player._playerHealth.ToString() + "%";
+        }
     }
 
     public void QuitGame()

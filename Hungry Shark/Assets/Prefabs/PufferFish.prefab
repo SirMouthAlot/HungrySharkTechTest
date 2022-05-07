@@ -99,6 +99,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Pufferfish
   _eatenValue: 100
+  _fleeDist: 1
+  _speed: 1.5
 --- !u!58 &4696154876146550502
 CircleCollider2D:
   m_ObjectHideFlags: 0
