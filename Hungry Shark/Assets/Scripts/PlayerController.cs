@@ -39,7 +39,10 @@ public class PlayerController : MonoBehaviour
         _targetPosition2D = _targetPosition;
 
         _movementVector2D = _targetPosition2D - _currentPosition2D;
+    }
 
+    private void LateUpdate()
+    {
         MoveTowardsTargetPoint();
         RotateTowardsTargetPoint();
     }
@@ -74,6 +77,8 @@ public class PlayerController : MonoBehaviour
     void ConsumeFish(Collider2D other)
     {
         Destroy(other.gameObject);
+
+        ScoreManager.AddToScore(100);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
