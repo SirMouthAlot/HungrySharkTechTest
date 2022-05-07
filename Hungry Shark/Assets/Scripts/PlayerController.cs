@@ -36,6 +36,11 @@ public class PlayerController : MonoBehaviour
             _targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameManager._instance.QuitGame();
+        }
+
         //Update current and target position 2D (truncates Z as this is a 2D game)
         _currentPosition2D = transform.position;
         _targetPosition2D = _targetPosition;
