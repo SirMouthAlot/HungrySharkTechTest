@@ -43,8 +43,9 @@ public class PlayerController : MonoBehaviour
 
     private void LateUpdate()
     {
+        //Move and rotate towards points
         MoveTowardsTargetPoint();
-        RotateTowardsTargetPoint();
+        RotateTowardsMouse();
     }
 
     void MoveTowardsTargetPoint()
@@ -61,7 +62,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void RotateTowardsTargetPoint()
+    void RotateTowardsMouse()
     {
         Vector2 lookAtDir;
 
@@ -76,9 +77,31 @@ public class PlayerController : MonoBehaviour
 
     void ConsumeFish(Collider2D other)
     {
-        Destroy(other.gameObject);
+        //Grab fish component
+        Fish fish = other.gameObject.GetComponent<Fish>();
 
-        ScoreManager.AddToScore(100);
+        //Run on consumed
+        bool correctTarget = fish.OnConsumed();
+
+        //If your chosen target, then we just give points
+        if (correctTarget)
+        {
+            GameManager._instance.OnConsumeTarget();
+            ScoreManager.AddToScore(fish._eatenValue);
+        }
+        else
+        {
+            //Make fish sick
+            ReduceFishHealth();
+        }
+
+        //Clean up
+        Destroy(other.gameObject);
+    }
+
+    void ReduceFishHealth()
+    {
+        //Reduce fish health
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
